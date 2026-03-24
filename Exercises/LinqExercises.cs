@@ -83,7 +83,6 @@ public sealed class LinqExercises
     {
         return [UniversityData.Enrollments.Exists(e => !e.IsActive) ? "yes" : "No"];
     }
-}
 
     /// <summary>
     /// Task:
@@ -97,7 +96,7 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task06_DoAllLecturersHaveDepartment()
     {
-        return [UniversityData.Lecturers.Count(l => string.IsNullOrEmpty(l.Department))
+        return [UniversityData.Lecturers.Count(l => !string.IsNullOrEmpty(l.Department))
             == UniversityData.Lecturers.Count ? "Yes" : "No"];
     }
 
@@ -112,7 +111,7 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task07_CountActiveEnrollments()
     {
-        throw NotImplemented(nameof(Task07_CountActiveEnrollments));
+        return UniversityData.Enrollments.Count(en =>)
     }
 
     /// <summary>
@@ -126,7 +125,8 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task08_DistinctStudentCities()
     {
-        throw NotImplemented(nameof(Task08_DistinctStudentCities));
+        return UniversityData.Students.OrderBy(s => s.City)
+            .Select(s => s.City).Distinct();
     }
 
     /// <summary>
@@ -141,7 +141,8 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task09_ThreeNewestEnrollments()
     {
-        throw NotImplemented(nameof(Task09_ThreeNewestEnrollments));
+        return UniversityData.Enrollments.OrderByDescending(e => e.EnrollmentDate)
+            .Select(en => $"{en.EnrollmentDate} {en.StudentId} {en.CourseId}").Take(3);
     }
 
     /// <summary>
@@ -172,7 +173,11 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task11_JoinStudentsWithEnrollments()
     {
-        throw NotImplemented(nameof(Task11_JoinStudentsWithEnrollments));
+        return UniversityData.Students
+            .Join(UniversityData.Enrollments,
+                st => st.Id,
+                en => en.StudentId,
+                (st, end) => $"{st.FirstName} {st.LastName} {end.EnrollmentDate}");
     }
 
     /// <summary>
