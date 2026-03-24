@@ -1,4 +1,5 @@
 using LinqConsoleLab.EN.Data;
+using LinqConsoleLab.EN.Models;
 
 namespace LinqConsoleLab.EN.Exercises;
 
@@ -16,7 +17,8 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task01_StudentsFromWarsaw()
     {
-        throw NotImplemented(nameof(Task01_StudentsFromWarsaw));
+        return UniversityData.Students.Where(s => s.City == "Warsaw")
+            .Select(e => $"{e.IndexNumber} {e.FirstName} {e.LastName}").ToList();
     }
 
     /// <summary>
@@ -30,7 +32,7 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task02_StudentEmailAddresses()
     {
-        throw NotImplemented(nameof(Task02_StudentEmailAddresses));
+        return UniversityData.Students.Select(s => s.Email).ToList();
     }
 
     /// <summary>
@@ -45,7 +47,8 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task03_StudentsSortedAlphabetically()
     {
-        throw NotImplemented(nameof(Task03_StudentsSortedAlphabetically));
+        return UniversityData.Students.OrderBy(s => s.LastName).ThenBy(s => s.LastName)
+            .Select(st => $"{st.IndexNumber} {st.FirstName} {st.LastName}").ToList();
     }
 
     /// <summary>
@@ -60,7 +63,8 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task04_FirstAnalyticsCourse()
     {
-        throw NotImplemented(nameof(Task04_FirstAnalyticsCourse));
+        return [UniversityData.Courses.Where(c => c.Category == "Analytics")
+            .Select(p=>$"{p.Title} {p.StartDate}").FirstOrDefault() ?? "Analytisc course not found"];
     }
 
     /// <summary>
@@ -77,8 +81,9 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task05_IsThereAnyInactiveEnrollment()
     {
-        throw NotImplemented(nameof(Task05_IsThereAnyInactiveEnrollment));
+        return [UniversityData.Enrollments.Exists(e => !e.IsActive) ? "yes" : "No"];
     }
+}
 
     /// <summary>
     /// Task:
@@ -92,7 +97,8 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task06_DoAllLecturersHaveDepartment()
     {
-        throw NotImplemented(nameof(Task06_DoAllLecturersHaveDepartment));
+        return [UniversityData.Lecturers.Count(l => string.IsNullOrEmpty(l.Department))
+            == UniversityData.Lecturers.Count ? "Yes" : "No"];
     }
 
     /// <summary>
