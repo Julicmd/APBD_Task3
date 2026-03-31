@@ -111,7 +111,7 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task07_CountActiveEnrollments()
     {
-        return UniversityData.Enrollments.Count(en =>)
+        return [UniversityData.Enrollments.Count(en => en.IsActive ) != 0 ? "yes" : "No"];
     }
 
     /// <summary>
@@ -158,7 +158,8 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task10_SecondPageOfCourses()
     {
-        throw NotImplemented(nameof(Task10_SecondPageOfCourses));
+        return UniversityData.Courses.OrderBy(t=> t.Title)
+            .Select()
     }
 
     /// <summary>
@@ -193,7 +194,15 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task12_StudentCoursePairs()
     {
-        throw NotImplemented(nameof(Task12_StudentCoursePairs));
+        return UniversityData.Enrollments
+            .Join(UniversityData.Students,
+                en => en.StudentId,
+                st => st.Id,
+                (en, st) => new { st.FirstName, st.LastName, en.CourseId })
+            .Join(UniversityData.Courses,
+                x => x.CourseId,
+                c => c.Id,
+                (x, c) => $"{x.FirstName} {x.LastName} - {c.Title}");
     }
 
     /// <summary>
@@ -208,7 +217,7 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task13_GroupEnrollmentsByCourse()
     {
-        throw NotImplemented(nameof(Task13_GroupEnrollmentsByCourse));
+        return UniversityData.Enrollments.GroupBy()
     }
 
     /// <summary>
